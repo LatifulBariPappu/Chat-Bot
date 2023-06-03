@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/back_color"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/idRVChats"
+        android:layout_above="@id/idRL_Msg"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentBottom="true"
+        android:id="@+id/idRL_Msg">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Mesasage"
+            android:textColorHint="@color/white"
+            android:singleLine="true"
+            android:layout_margin="3dp"
+            android:layout_centerInParent="true"
+            android:layout_toLeftOf="@id/idFABSend"
+            android:id="@+id/idEdtMessage"
+            android:textColor="@color/white"
+            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_send"
+            android:id="@+id/idFABSend"
+            android:layout_margin="4dp"
+            app:fabCustomSize="45dp"
+            android:layout_alignParentRight="true"
+            android:backgroundTint="@color/fab_color"
+            app:tint="@color/white"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
