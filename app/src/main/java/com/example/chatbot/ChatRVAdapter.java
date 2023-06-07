@@ -39,13 +39,25 @@ public class ChatRVAdapter  extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ChatsModal chatsModal=chatsModalArrayList.get(position);
-        switch ((chatsModal.getSender())){
+        switch (chatsModal.getSender()){
             case "user":
                 ((UserViewHolder)holder).userTV.setText(chatsModal.getMessage());
                 break;
             case "bot":
                 ((BotViewHolder)holder).botMsgTv.setText(chatsModal.getMessage());
                 break;
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        switch (chatsModalArrayList.get(position).getSender()){
+            case "user":
+                return 0;
+            case "bot":
+                return 1;
+            default:
+                return -1;
         }
     }
 

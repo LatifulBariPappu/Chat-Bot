@@ -54,14 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 userMsgEdt.setText("");
             }
         });
-
-
     }
 
     private void getResponse(String message) {
         chatsModalArrayList.add(new ChatsModal(message, USER_KEY));
         chatRVAdapter.notifyDataSetChanged();
-        String url = "http://api.brainshop.ai/get?bid=175787&key=Qmr1aoXQy5efZgpK&uid=[uid]&msg=" + message;
+        String url = "http://api.brainshop.ai/get?bid=175787&key=Qmr1aoXQy5efZgpK&uid=[uid]&msg="+message;
         String BASE_URL = "http://api.brainshop.ai/";
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -74,14 +72,14 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<MsgModal> call, Response<MsgModal> response) {
                 if (response.isSuccessful()) {
                     MsgModal modal = response.body();
-                    chatsModalArrayList.add(new ChatsModal(modal.getCnt(), BOT_KEY));
+                    chatsModalArrayList.add(new ChatsModal(modal.getCnt(),BOT_KEY));
                     chatRVAdapter.notifyDataSetChanged();
                 }
             }
 
             @Override
             public void onFailure(Call<MsgModal> call, Throwable t) {
-                chatsModalArrayList.add(new ChatsModal("Please revert your question", BOT_KEY));
+                chatsModalArrayList.add(new ChatsModal("Please revert your question",BOT_KEY));
                 chatRVAdapter.notifyDataSetChanged();
             }
         });
