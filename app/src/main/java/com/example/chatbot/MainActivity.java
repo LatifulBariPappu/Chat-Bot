@@ -1,9 +1,12 @@
 package com.example.chatbot;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -19,13 +22,13 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 public class MainActivity extends AppCompatActivity {
-
     private RecyclerView chatsRV;
-    private EditText userMsgEdt;
     private FloatingActionButton sendMsgFAB;
-    private  final String BOT_KEY="bot";
-    private final String USER_KEY="user";
+    private EditText userMsgEdt;
+    public  final String BOT_KEY="bot";
+    public final String USER_KEY="user";
     private ArrayList<ChatsModal>chatsModalArrayList;
     private  ChatRVAdapter chatRVAdapter;
 
@@ -34,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        chatsRV=findViewById(R.id.idRVChats);
+        chatsRV = findViewById(R.id.idRVChats);
         userMsgEdt=findViewById(R.id.idEdtMessage);
-        sendMsgFAB=findViewById(R.id.idFABSend);
+        sendMsgFAB = findViewById(R.id.idFABSend);
         chatsModalArrayList=new ArrayList<>();
         chatRVAdapter=new ChatRVAdapter(chatsModalArrayList,this);
         LinearLayoutManager manager=new LinearLayoutManager(this);
@@ -59,9 +62,10 @@ public class MainActivity extends AppCompatActivity {
     private void getResponse(String message) {
         chatsModalArrayList.add(new ChatsModal(message, USER_KEY));
         chatRVAdapter.notifyDataSetChanged();
-        String url = "http://api.brainshop.ai/get?bid=175787&key=Qmr1aoXQy5efZgpK&uid=[uid]&msg="+message;
+        String url = "http://api.brainshop.ai/get?bid=177178&key=YBP3iQHhO6Ol2LHF&uid=[uid]&msg="+message;
         String BASE_URL = "http://api.brainshop.ai/";
-        Retrofit retrofit = new Retrofit.Builder()
+        Retrofit retrofit = null;
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -69,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         Call<MsgModal> call = retrofitAPI.getMessage(url);
         call.enqueue(new Callback<MsgModal>() {
             @Override
-            public void onResponse(Call<MsgModal> call, Response<MsgModal> response) {
+            public void onResponse(@NonNull Call<MsgModal> call, @NonNull Response<MsgModal> response) {
                 if (response.isSuccessful()) {
                     MsgModal modal = response.body();
                     chatsModalArrayList.add(new ChatsModal(modal.getCnt(),BOT_KEY));
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MsgModal> call, Throwable t) {
+            public void onFailure(@NonNull Call<MsgModal> call, @NonNull Throwable t) {
                 chatsModalArrayList.add(new ChatsModal("Please revert your question",BOT_KEY));
                 chatRVAdapter.notifyDataSetChanged();
             }

@@ -20,45 +20,64 @@ public class ChatRVAdapter  extends RecyclerView.Adapter {
         this.chatsModalArrayList = chatsModalArrayList;
         this.context = context;
     }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
-        switch (viewType){
-            case 0:
-                view= LayoutInflater.from(parent.getContext()).inflate(R.layout.user_msg_rv_item,parent,false);
-                return new UserViewHolder(view);
-            case 1:
-                view= LayoutInflater.from(parent.getContext()).inflate(R.layout.bot_msg_rv_item,parent,false);
-                return new BotViewHolder(view);
+        if(viewType==0){
+            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.user_msg_rv_item,parent,false);
+            return new UserViewHolder(view);
+        } else if (viewType==1) {
+            view= LayoutInflater.from(parent.getContext()).inflate(R.layout.bot_msg_rv_item,parent,false);
+            return new BotViewHolder(view);
         }
+
+//        switch (viewType){
+//            case 0:
+//                view= LayoutInflater.from(parent.getContext()).inflate(R.layout.user_msg_rv_item,parent,false);
+//                return new UserViewHolder(view);
+//            case 1:
+//                view= LayoutInflater.from(parent.getContext()).inflate(R.layout.bot_msg_rv_item,parent,false);
+//                return new BotViewHolder(view);
+//        }
          return null;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ChatsModal chatsModal=chatsModalArrayList.get(position);
-        switch (chatsModal.getSender()){
-            case "user":
-                ((UserViewHolder)holder).userTV.setText(chatsModal.getMessage());
-                break;
-            case "bot":
-                ((BotViewHolder)holder).botMsgTv.setText(chatsModal.getMessage());
-                break;
+        if(chatsModal.getSender()=="user"){
+            ((UserViewHolder)holder).userTV.setText(chatsModal.getMessage());
+        }else if(chatsModal.getSender()=="bot"){
+            ((BotViewHolder)holder).botMsgTv.setText(chatsModal.getMessage());
         }
+//        switch (chatsModal.getSender()){
+//            case "user":
+//                ((UserViewHolder)holder).userTV.setText(chatsModal.getMessage());
+//                break;
+//            case "bot":
+//                ((BotViewHolder)holder).botMsgTv.setText(chatsModal.getMessage());
+//                break;
+//        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        switch (chatsModalArrayList.get(position).getSender()){
-            case "user":
-                return 0;
-            case "bot":
-                return 1;
-            default:
-                return -1;
+        if(chatsModalArrayList.get(position).getSender()=="user"){
+            return 0;
+        }else if(chatsModalArrayList.get(position).getSender()=="bot"){
+            return 1;
+        }else{
+            return -1;
         }
+//        switch (chatsModalArrayList.get(position).getSender()){
+//            case "user":
+//                return 0;
+//            case "bot":
+//                return 1;
+//            default:
+//                return -1;
+//        }
     }
 
     @Override
